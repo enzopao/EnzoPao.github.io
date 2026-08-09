@@ -4,19 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enzo Paolini Bouillé | Portfolio SISR</title>
+    <!-- Favicon (Onglet du navigateur) -->
+    <link rel="icon" type="image/png" href="/Image/photo-profil.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #f8fafc; 
-            color: #1e293b; 
+            color: #0f172a; 
+        }
+        /* Pattern d'arrière-plan tech/pro */
+        .bg-grid-pattern {
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 24px 24px;
         }
         .glass-nav {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
         }
         .vibrant-gradient {
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
@@ -27,334 +37,476 @@
             background-clip: text;
             color: transparent;
         }
-        .card-shadow {
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -10px rgba(79, 70, 229, 0.15);
+        }
+        /* Style des scrollbars pour un aspect dashboard */
+        ::-webkit-scrollbar { width: 6px; }
+        @media (min-width: 768px) {
+            ::-webkit-scrollbar { width: 8px; }
+        }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body>
+<body class="antialiased selection:bg-indigo-500 selection:text-white relative">
 
-    <nav class="fixed w-full z-50 top-4 px-4">
-        <div class="max-w-7xl mx-auto glass-nav px-6 py-4 rounded-3xl flex justify-between items-center card-shadow">
-            <span class="font-extrabold tracking-tighter text-indigo-600 text-xl">Enzo Paolini Bouillé</span>
-            <div class="hidden md:flex space-x-6 lg:space-x-8 text-[10px] font-bold uppercase tracking-widest text-slate-600">
-                <a href="#accueil" class="hover:text-indigo-600 transition">Accueil</a>
-                <a href="#profil" class="hover:text-indigo-600 transition">Profil</a>
-                <a href="#sio" class="hover:text-indigo-600 transition">BTS SIO</a>
-                <a href="#stages" class="hover:text-indigo-600 transition">Stages</a>
-                <a href="#realisations" class="hover:text-indigo-600 transition">Réalisations</a>
-                <a href="#synthese" class="hover:text-indigo-600 transition">Synthèse</a>
-                <a href="#contact" class="hover:text-indigo-600 transition text-indigo-600">Contact</a>
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-2 sm:top-4 px-4 transition-all duration-300">
+        <div class="max-w-7xl mx-auto glass-nav px-4 sm:px-8 py-3 sm:py-4 rounded-2xl relative">
+            <div class="flex justify-between items-center">
+                <!-- Identité -->
+                <span class="font-extrabold tracking-tight text-slate-900 text-lg sm:text-xl flex items-center gap-2 sm:gap-3">
+                    <img src="/Image/photo.png" alt="Enzo" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-indigo-100 shadow-sm hover:scale-105 transition-transform cursor-pointer">
+                    <span class="hidden sm:inline">Enzo Paolini Bouillé</span>
+                    <span class="sm:hidden">Enzo P.B.</span>
+                </span>
+                
+                <!-- Menu Bureau -->
+                <div class="hidden lg:flex space-x-6 xl:space-x-8 text-[11px] xl:text-xs font-bold uppercase tracking-widest text-slate-500">
+                    <a href="#accueil" class="hover:text-indigo-600 transition-colors">Accueil</a>
+                    <a href="#profil" class="hover:text-indigo-600 transition-colors">Profil</a>
+                    <a href="#sio" class="hover:text-indigo-600 transition-colors">BTS SIO</a>
+                    <a href="#stages" class="hover:text-indigo-600 transition-colors">Stages</a>
+                    <a href="#realisations" class="hover:text-indigo-600 transition-colors">Réalisations</a>
+                    <a href="#synthese" class="hover:text-indigo-600 transition-colors">Synthèse</a>
+                    <a href="#contact" class="text-indigo-600 hover:text-indigo-800 transition-colors">Contact</a>
+                </div>
+
+                <!-- Bouton Menu Mobile -->
+                <button id="mobile-menu-btn" class="lg:hidden text-slate-600 text-xl cursor-pointer p-2 focus:outline-none hover:text-indigo-600 transition-colors">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Menu Déroulant Mobile -->
+            <div id="mobile-menu" class="hidden lg:hidden flex flex-col absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-xl border border-slate-100 shadow-2xl rounded-2xl p-4 space-y-4 text-center font-bold text-sm uppercase tracking-wider text-slate-600 z-50">
+                <a href="#accueil" class="block py-2 hover:text-indigo-600 hover:bg-slate-50 rounded-xl transition-all">Accueil</a>
+                <a href="#profil" class="block py-2 hover:text-indigo-600 hover:bg-slate-50 rounded-xl transition-all">Profil</a>
+                <a href="#sio" class="block py-2 hover:text-indigo-600 hover:bg-slate-50 rounded-xl transition-all">BTS SIO</a>
+                <a href="#stages" class="block py-2 hover:text-indigo-600 hover:bg-slate-50 rounded-xl transition-all">Stages</a>
+                <a href="#realisations" class="block py-2 hover:text-indigo-600 hover:bg-slate-50 rounded-xl transition-all">Réalisations</a>
+                <a href="#synthese" class="block py-2 hover:text-indigo-600 hover:bg-slate-50 rounded-xl transition-all">Synthèse</a>
+                <a href="#contact" class="block py-2 text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all">Contact</a>
             </div>
         </div>
     </nav>
 
-    <section id="accueil" class="min-h-screen flex items-center justify-center bg-white px-6 text-center">
-        <div class="max-w-4xl">
-            <h1 class="text-5xl md:text-7xl font-extrabold mb-8 text-slate-900 leading-tight">
-                Bienvenue sur mon <span class="text-vibrant">portfolio numérique !</span>
+    <!-- Header / Accueil -->
+    <section id="accueil" class="relative min-h-screen flex items-center justify-center bg-white bg-grid-pattern px-4 sm:px-6 text-center overflow-hidden pt-28 md:pt-20">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white pointer-events-none"></div>
+        
+        <div class="relative z-10 max-w-4xl w-full">
+            <div class="inline-block mb-6 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-[10px] sm:text-xs font-bold tracking-widest uppercase shadow-sm">
+                <i class="fas fa-terminal mr-2"></i> Portfolio
+            </div>
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-6 sm:mb-8 text-slate-900 leading-[1.1] md:leading-[1.1]">
+                Administrateur <span class="text-vibrant block sm:inline mt-2 sm:mt-0">Systèmes & Réseaux</span>
             </h1>
-            <p class="text-xl text-slate-600 max-w-2xl mx-auto mb-10">
-                Étudiant en <span class="font-bold text-slate-900">BTS SIO option SISR</span>. 
-                Objectif : <span class="text-indigo-600 font-semibold">Licence Administrateur & Réseaux</span> puis un <span class="text-purple-600 font-semibold">Master Cybersécurité</span>.
+            <p class="text-base sm:text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed px-2">
+                Étudiant en <span class="font-semibold text-slate-800">Licence pro</span>. 
+                Mon objectif : <span class="text-indigo-600 font-medium">valider ma licence</span> et poursuivre vers un <span class="text-purple-600 font-medium">Master en Cybersécurité</span> pour consolider mes infrastructures.
             </p>
-            <a href="#profil" class="vibrant-gradient text-white px-10 py-4 rounded-2xl font-bold shadow-xl hover:scale-105 transition-all inline-block">Découvrir mon parcours</a>
+            <div class="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 w-full px-4 sm:px-0">
+                <a href="#profil" class="vibrant-gradient text-white px-6 sm:px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-1 transition-all w-full sm:w-auto flex items-center justify-center gap-2">
+                    Découvrir mon parcours <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="/pdf/CV Paolini Bouillé Enzo alternance copie.pdf" target="_blank" class="bg-white text-slate-900 px-6 sm:px-8 py-4 rounded-xl font-bold shadow-sm border border-slate-200 hover:bg-slate-50 hover:-translate-y-1 transition-all w-full sm:w-auto flex items-center justify-center gap-2">
+                    <i class="fas fa-file-alt text-indigo-600"></i> Consulter le CV
+                </a>
+            </div>
         </div>
     </section>
 
-    <section id="profil" class="py-24 bg-slate-50 px-6">
+    <!-- Profil (Formations & Expériences) -->
+    <section id="profil" class="py-16 md:py-24 bg-white px-4 sm:px-6">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl font-extrabold text-center mb-16 uppercase tracking-widest text-slate-400 italic">Mon Profil</h2>
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Mon Profil</h2>
+                <div class="h-1 w-20 vibrant-gradient mx-auto mt-4 rounded-full"></div>
+            </div>
             
-            <div class="grid lg:grid-cols-3 gap-8 items-stretch mb-16">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 
-                <div class="bg-white p-8 rounded-[2.5rem] card-shadow border border-slate-100">
-                    <h3 class="text-xl font-bold mb-10 flex items-center text-indigo-600"><i class="fas fa-graduation-cap mr-3"></i> Formation</h3>
-                    <div class="space-y-12">
-                        <div class="flex items-start space-x-4">
-                            <img src="/Image/Epsi.jpeg" alt="Lycée Eiffel" class="w-14 h-14 object-contain flex-shrink-0 bg-slate-50 p-1 rounded-lg">
-                            <div>
-                                <p class="font-extrabold text-slate-900 text-md">Licence professionnelle</p>
-                                <p class="text-xs text-indigo-500 font-semibold italic">Epsi, Bordeaux - 2026/2029</p>
-                                <p class="text-xs text-slate-600 leading-relaxed border-l-2 border-indigo-100 pl-3 mt-2 italic">Administration systèmes, réseaux et bases de données.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start space-x-4">
-                            <img src="/Image/Lycee Gustave Eiffel.jpeg" alt="Lycée Eiffel" class="w-14 h-14 object-contain flex-shrink-0 bg-slate-50 p-1 rounded-lg">
-                            <div>
-                                <p class="font-extrabold text-slate-900 text-md">BTS SIO SISR</p>
-                                <p class="text-xs text-indigo-500 font-semibold italic">G. Eiffel, Bordeaux - 2024/2026</p>
-                                <p class="text-xs text-slate-600 leading-relaxed border-l-2 border-indigo-100 pl-3 mt-2 italic">Administration systèmes, réseaux et cybersécurité.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start space-x-4">
-                            <img src="/Image/Lycee Les IRIS.jpeg" alt="Lycée Les Iris" class="w-14 h-14 object-contain flex-shrink-0 bg-slate-50 p-1 rounded-lg">
-                            <div>
-                                <p class="font-extrabold text-slate-900 text-md">Bac STI2D SIN</p>
-                                <p class="text-xs text-slate-400 font-semibold italic">Les Iris, Lormont - 2021/2024</p>
-                                <p class="text-xs text-slate-600 leading-relaxed border-l-2 border-slate-100 pl-3 mt-2 italic">Option Système d'Information et Numérique obtenue avec mention assez bien.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-8 rounded-[2.5rem] card-shadow border border-slate-100">
-                    <h3 class="text-xl font-bold mb-10 flex items-center text-purple-600"><i class="fas fa-briefcase mr-3"></i> Expériences</h3>
-                    <div class="space-y-12">
-                        <div class="flex items-start space-x-4">
-                            <img src="/Image/Nouvelle-Aquitaine.jpeg" alt="Eanna" class="w-14 h-14 object-contain flex-shrink-0 bg-slate-50 p-1 rounded-lg">
-                            <div>
-                                <p class="font-extrabold text-slate-900 text-md">Nouvelle-Aquitaine, Eanna</p>
-                                <p class="text-xs text-purple-500 font-semibold italic">Stagiaire - 2025/2026</p>
-                                <p class="text-xs text-slate-600 mt-2 border-l-2 border-purple-100 pl-3 italic">Maintenance, optimisation et déploiement des infrastructures des lycées de Bordeaux Nord.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start space-x-4">
-                            <img src="/Image/BNP Paribas.png" alt="BNP" class="w-14 h-14 object-contain flex-shrink-0 bg-slate-50 p-1 rounded-lg">
-                            <div>
-                                <p class="font-extrabold text-slate-900 text-md">BNP Paribas</p>
-                                <p class="text-xs text-purple-500 font-semibold italic">Chargé d'accueil - 2024/2026</p>
-                                <p class="text-xs text-slate-600 mt-2 border-l-2 border-purple-100 pl-3 italic">Relation client et opérations de base effectuées pour les clients.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start space-x-4">
-                            <img src="/Image/SuperU.png" alt="Super U" class="w-14 h-14 object-contain flex-shrink-0 bg-slate-50 p-1 rounded-lg">
-                            <div>
-                                <p class="font-extrabold text-slate-900 text-md">Super U</p>
-                                <p class="text-xs text-slate-400 font-semibold italic">Employé - 1 mois</p>
-                                <p class="text-xs text-slate-600 mt-2 border-l-2 border-slate-100 pl-3 italic">Gestion des rayons.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-8 rounded-[2.5rem] card-shadow border border-slate-100">
-                    <h3 class="text-xl font-bold mb-10 flex items-center text-pink-600"><i class="fas fa-laptop-code mr-3"></i> Formations en ligne</h3>
-                    <div class="space-y-12">
-                        
-                        <div class="flex items-start space-x-4">
-                            <img src="/Image/ONU.png" alt="Formation 1" class="w-14 h-14 object-contain flex-shrink-0 bg-slate-50 p-1 rounded-lg">
-                            <div>
-                                <p class="font-extrabold text-slate-900 text-md">ONU</p>
-                                <p class="text-xs text-pink-500 font-semibold italic">Certification Cybercriminalité</p>
-                                <p class="text-xs text-slate-600 mt-2 border-l-2 border-pink-100 pl-3 italic">Maîtrise des concepts de la cybercriminalité.</p>
-                                <a href="/Formation/Certification ONU cybercriminalite.pdf" target="_blank" class="mt-3 inline-flex items-center px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-pink-600 bg-pink-50 border border-pink-100 rounded-lg hover:bg-pink-600 hover:text-white transition-all">
-                                    <i class="fas fa-file-pdf mr-1.5 text-sm"></i> Voir le PDF
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start space-x-4">
-                            <img src="/Image/ANSSI.png" alt="Formation 2" class="w-14 h-14 object-contain flex-shrink-0 bg-slate-50 p-1 rounded-lg">
-                            <div>
-                                <p class="font-extrabold text-slate-900 text-md">ANSSI</p>
-                                <p class="text-xs text-pink-500 font-semibold italic">Certification MOOC</p>
-                                <p class="text-xs text-slate-600 mt-2 border-l-2 border-pink-100 pl-3 italic">Maîtrise de la sécurité liée à l'authentification, à internet et au poste de travail.</p>
-                                <a href="/Formation/Certification Mooc Anssi.pdf" target="_blank" class="mt-3 inline-flex items-center px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-pink-600 bg-pink-50 border border-pink-100 rounded-lg hover:bg-pink-600 hover:text-white transition-all">
-                                    <i class="fas fa-file-pdf mr-1.5 text-sm"></i> Voir le PDF
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center flex flex-col sm:flex-row justify-center items-center gap-4">
-                <a href="/pdf/CV Paolini Bouillé Enzo alternance copie.pdf" download class="inline-flex items-center bg-slate-900 text-white px-10 py-5 rounded-2xl font-bold hover:bg-indigo-600 transition shadow-xl transform hover:-translate-y-1 w-full sm:w-auto justify-center">
-                    <i class="fas fa-download mr-3 text-xl"></i> TÉLÉCHARGER MON CV
-                </a>
-                <a href="/pdf/CV Paolini Bouillé Enzo alternance copie.pdf" target="_blank" class="inline-flex items-center bg-white text-slate-900 border-2 border-slate-900 px-10 py-5 rounded-2xl font-bold hover:bg-slate-900 hover:text-white transition shadow-xl transform hover:-translate-y-1 w-full sm:w-auto justify-center">
-                    <i class="fas fa-eye mr-3 text-xl"></i> VOIR MON CV
-                </a>
-            </div>
-            </div>
-    </section>
-
-    <section id="sio" class="py-24 px-6 bg-white">
-        <div class="max-w-5xl mx-auto">
-            <div class="border-2 border-indigo-50 p-10 md:p-16 rounded-[3rem] bg-indigo-50/30 text-center mb-16">
-                <h2 class="text-3xl font-extrabold mb-6 text-indigo-900 italic text-vibrant">Mes compétences</h2>
-
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-indigo-100 font-bold text-indigo-900">Systèmes</div>
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-indigo-100 font-bold text-indigo-900">Serveurs</div>
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-indigo-100 font-bold text-indigo-900">Réseaux</div>
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-indigo-100 font-bold text-indigo-900">Sécurité</div>
-                </div>
-
-                <div class="text-left max-w-4xl mx-auto">
-                    <h3 class="text-xl font-bold mb-8 text-slate-800 border-b pb-2 flex items-center">
-                        <i class="fas fa-list-check mr-3 text-indigo-600"></i> Mes compétences techniques
+                <!-- Colonne Formation -->
+                <div class="bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-100 card-hover">
+                    <h3 class="text-xl font-bold mb-8 flex items-center text-slate-800 border-b border-slate-200 pb-4">
+                        <span class="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center mr-4 shrink-0">
+                            <i class="fas fa-graduation-cap"></i>
+                        </span>
+                        Formations
                     </h3>
-                    <div class="grid md:grid-cols-2 gap-x-12 gap-y-6">
-                        <div class="space-y-4">
-                            <p class="font-bold text-indigo-600 flex items-center italic underline decoration-indigo-200 decoration-4">Systèmes & Serveurs</p>
-                            <ul class="text-sm text-slate-600 space-y-2 pl-2">
-                                <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-indigo-400"></i>Installation et configuration de différents OS (debian, Windows Server, Kali Linux, ...)</li>
-                                <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-indigo-400"></i>Installation de services (crowdsec, apache2,...)</li>
-                                <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-indigo-400"></i>Gestion d'environnements virtualisés à travers des machines virtuelles(VirtualBox et Proxmox)</li>
-                            </ul>
+                    <div class="relative border-l-2 border-indigo-100 ml-4 space-y-8 md:space-y-10 pb-4">
+                        <div class="relative pl-6">
+                            <div class="absolute w-4 h-4 bg-indigo-500 rounded-full -left-[9px] top-2 border-4 border-slate-50"></div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <img src="/Image/Epsi.jpeg" alt="Epsi" class="w-8 h-8 object-contain rounded-md bg-white border border-slate-200 p-0.5 shrink-0">
+                                <p class="font-bold text-slate-900 text-base md:text-lg leading-tight">Licence pro.</p>
+                            </div>
+                            <p class="text-xs md:text-sm text-indigo-600 font-semibold mb-2">Epsi, Bordeaux • 2026/2029</p>
+                            <p class="text-xs md:text-sm text-slate-600 leading-relaxed">Administration systèmes, réseaux et bases de données.</p>
                         </div>
-                        <div class="space-y-4">
-                            <p class="font-bold text-purple-600 flex items-center italic underline decoration-purple-200 decoration-4">Réseaux & Sécurité</p>
-                            <ul class="text-sm text-slate-600 space-y-2 pl-2">
-                                <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i>Configuration de switchs Aruba et NetGear(VLAN)</li>
-                                <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i>Configuration de bornes Wi-Fi et contrôleur Aruba</li>
-                                <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i>Administration sécurisé à distance</li>
-                                <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i>Règles de filtrages</li>
-
-                            </ul>
+                        <div class="relative pl-6">
+                            <div class="absolute w-4 h-4 bg-slate-300 rounded-full -left-[9px] top-2 border-4 border-slate-50"></div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <img src="/Image/Lycee Gustave Eiffel.jpeg" alt="Lycée Eiffel" class="w-8 h-8 object-contain rounded-md bg-white border border-slate-200 p-0.5 shrink-0">
+                                <p class="font-bold text-slate-900 text-base md:text-lg leading-tight">BTS SIO SISR</p>
+                            </div>
+                            <p class="text-xs md:text-sm text-slate-500 font-medium mb-2">G. Eiffel, Bordeaux • 2024/2026</p>
+                            <p class="text-xs md:text-sm text-slate-600 leading-relaxed">Administration systèmes, réseaux et cybersécurité.</p>
+                        </div>
+                        <div class="relative pl-6">
+                            <div class="absolute w-4 h-4 bg-slate-300 rounded-full -left-[9px] top-2 border-4 border-slate-50"></div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <img src="/Image/Lycee Les IRIS.jpeg" alt="Lycée Les Iris" class="w-8 h-8 object-contain rounded-md bg-white border border-slate-200 p-0.5 shrink-0">
+                                <p class="font-bold text-slate-900 text-base md:text-lg leading-tight">Bac STI2D SIN</p>
+                            </div>
+                            <p class="text-xs md:text-sm text-slate-500 font-medium mb-2">Les Iris, Lormont • 2021/2024</p>
+                            <p class="text-xs md:text-sm text-slate-600 leading-relaxed">Option Système d'Information et Numérique (Mention AB).</p>
                         </div>
                     </div>
                 </div>
+
+                <!-- Colonne Expériences -->
+                <div class="bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-100 card-hover">
+                    <h3 class="text-xl font-bold mb-8 flex items-center text-slate-800 border-b border-slate-200 pb-4">
+                        <span class="w-10 h-10 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center mr-4 shrink-0">
+                            <i class="fas fa-briefcase"></i>
+                        </span>
+                        Expériences
+                    </h3>
+                    <div class="relative border-l-2 border-purple-100 ml-4 space-y-8 md:space-y-10 pb-4">
+                        <div class="relative pl-6">
+                            <div class="absolute w-4 h-4 bg-purple-500 rounded-full -left-[9px] top-2 border-4 border-slate-50"></div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <img src="/Image/Nouvelle-Aquitaine.jpeg" alt="Eanna" class="w-8 h-8 object-contain rounded-md bg-white border border-slate-200 p-0.5 shrink-0">
+                                <p class="font-bold text-slate-900 text-base md:text-lg leading-tight">N-A, Eanna</p>
+                            </div>
+                            <p class="text-xs md:text-sm text-purple-600 font-semibold mb-2">Stagiaire • 2025/2026</p>
+                            <p class="text-xs md:text-sm text-slate-600 leading-relaxed">Maintenance, optimisation et déploiement des infrastructures des lycées de Bordeaux Nord.</p>
+                        </div>
+                        <div class="relative pl-6">
+                            <div class="absolute w-4 h-4 bg-slate-300 rounded-full -left-[9px] top-2 border-4 border-slate-50"></div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <img src="/Image/BNP Paribas.png" alt="BNP" class="w-8 h-8 object-contain rounded-md bg-white border border-slate-200 p-0.5 shrink-0">
+                                <p class="font-bold text-slate-900 text-base md:text-lg leading-tight">BNP Paribas</p>
+                            </div>
+                            <p class="text-xs md:text-sm text-slate-500 font-medium mb-2">Chargé d'accueil • 2024/2026</p>
+                            <p class="text-xs md:text-sm text-slate-600 leading-relaxed">Relation client et opérations bancaires de base effectuées pour les clients.</p>
+                        </div>
+                        <div class="relative pl-6">
+                            <div class="absolute w-4 h-4 bg-slate-300 rounded-full -left-[9px] top-2 border-4 border-slate-50"></div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <img src="/Image/SuperU.png" alt="Super U" class="w-8 h-8 object-contain rounded-md bg-white border border-slate-200 p-0.5 shrink-0">
+                                <p class="font-bold text-slate-900 text-base md:text-lg leading-tight">Super U</p>
+                            </div>
+                            <p class="text-xs md:text-sm text-slate-500 font-medium mb-2">Employé • 1 mois</p>
+                            <p class="text-xs md:text-sm text-slate-600 leading-relaxed">Gestion des rayons et relation client.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Colonne Certifications -->
+                <div class="bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-100 card-hover md:col-span-2 lg:col-span-1">
+                    <h3 class="text-xl font-bold mb-8 flex items-center text-slate-800 border-b border-slate-200 pb-4">
+                        <span class="w-10 h-10 rounded-lg bg-pink-100 text-pink-600 flex items-center justify-center mr-4 shrink-0">
+                            <i class="fas fa-certificate"></i>
+                        </span>
+                        Certifications
+                    </h3>
+                    <div class="space-y-4 md:space-y-6 flex flex-col sm:flex-row lg:flex-col gap-4 sm:gap-6 lg:gap-0">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex-1">
+                            <div class="flex items-center gap-4 mb-3">
+                                <img src="/Image/ONU.png" alt="ONU" class="w-12 h-12 object-contain bg-slate-50 p-1.5 rounded-lg border border-slate-100 shrink-0">
+                                <div>
+                                    <p class="font-bold text-slate-900">ONU</p>
+                                    <p class="text-[10px] sm:text-xs text-pink-600 font-semibold uppercase tracking-wider">Cybercriminalité</p>
+                                </div>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-500 mb-4">Maîtrise des concepts liés à la cybercriminalité globale.</p>
+                            <a href="/Formation/Certification ONU cybercriminalite.pdf" target="_blank" class="w-full inline-flex justify-center items-center px-4 py-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-pink-600 bg-pink-50 rounded-lg hover:bg-pink-600 hover:text-white transition-colors">
+                                <i class="fas fa-file-pdf mr-2 text-sm"></i> Certificat
+                            </a>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex-1">
+                            <div class="flex items-center gap-4 mb-3">
+                                <img src="/Image/ANSSI.png" alt="ANSSI" class="w-12 h-12 object-contain bg-slate-50 p-1.5 rounded-lg border border-slate-100 shrink-0">
+                                <div>
+                                    <p class="font-bold text-slate-900">ANSSI</p>
+                                    <p class="text-[10px] sm:text-xs text-pink-600 font-semibold uppercase tracking-wider">SecNumacadémie</p>
+                                </div>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-500 mb-4">Sécurité de l'authentification, d'internet et du poste de travail.</p>
+                            <a href="/Formation/Certification Mooc Anssi.pdf" target="_blank" class="w-full inline-flex justify-center items-center px-4 py-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-pink-600 bg-pink-50 rounded-lg hover:bg-pink-600 hover:text-white transition-colors">
+                                <i class="fas fa-file-pdf mr-2 text-sm"></i> Certificat
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-12 md:mt-16 text-center w-full">
+                <a href="/pdf/CV Paolini Bouillé Enzo alternance copie.pdf" download class="inline-flex items-center justify-center bg-slate-900 text-white px-6 sm:px-8 py-4 rounded-xl font-bold hover:bg-indigo-600 transition shadow-lg hover:-translate-y-1 w-full sm:w-auto">
+                    <i class="fas fa-download mr-3"></i> TÉLÉCHARGER LE CV (PDF)
+                </a>
             </div>
         </div>
     </section>
 
-    <section id="stages" class="py-24 px-6 bg-slate-50 text-center">
-        <div class="max-w-5xl mx-auto">
-            <h2 class="text-3xl font-extrabold mb-16 uppercase tracking-widest italic text-vibrant">Mes Stages</h2>
-            <div class="grid md:grid-cols-2 gap-10 text-left">
-                
-                <div class="bg-white p-8 rounded-[2.5rem] border-l-8 border-indigo-500 card-shadow transition hover:scale-[1.02]">
-                    <span class="text-xs font-bold text-indigo-500 uppercase tracking-widest">1ère Année - 2025</span>
-                    <h3 class="text-2xl font-bold mt-4 mb-4 text-slate-900">Eanna : Région Nouvelle-Aquitaine</h3>
-                    <ul class="space-y-2">
-                        <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i> Assistance aux lycées de Bordeaux Nord</li>
-                        <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i> Configuration de switchs et bornes Aruba, avec leur contrôleur</li>
-                        <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i> Configuration d'un serveur Proxmox secondaire</li>
-                        <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i> Réponse aux demandes d'assistance des lycées et professeurs</li>
-                        <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i> Installation de logiciels métiers</li>
-                        <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i> Création et configuration de machines virtuelles sous Proxmox</li>
-                        <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i> Installation et raccordement de postes de travail complets</li>
+    <!-- Compétences SIO -->
+    <section id="sio" class="py-16 md:py-24 px-4 sm:px-6 bg-slate-900 text-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-3xl font-extrabold tracking-tight">Compétences Techniques</h2>
+                <div class="h-1 w-20 bg-indigo-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Tags style Dashboard -->
+            <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12 md:mb-16">
+                <span class="px-4 sm:px-6 py-2 bg-slate-800 border border-slate-700 rounded-lg font-mono text-xs sm:text-sm text-indigo-400 flex items-center gap-2"><i class="fas fa-microchip shrink-0"></i> Systèmes</span>
+                <span class="px-4 sm:px-6 py-2 bg-slate-800 border border-slate-700 rounded-lg font-mono text-xs sm:text-sm text-purple-400 flex items-center gap-2"><i class="fas fa-server shrink-0"></i> Serveurs</span>
+                <span class="px-4 sm:px-6 py-2 bg-slate-800 border border-slate-700 rounded-lg font-mono text-xs sm:text-sm text-pink-400 flex items-center gap-2"><i class="fas fa-network-wired shrink-0"></i> Réseaux</span>
+                <span class="px-4 sm:px-6 py-2 bg-slate-800 border border-slate-700 rounded-lg font-mono text-xs sm:text-sm text-emerald-400 flex items-center gap-2"><i class="fas fa-shield-halved shrink-0"></i> Sécurité</span>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+                <!-- Box Systèmes -->
+                <div class="bg-slate-800/50 p-6 md:p-8 rounded-3xl border border-slate-700 backdrop-blur-sm">
+                    <h3 class="text-xl font-bold mb-6 text-indigo-400 flex items-center gap-3">
+                        <i class="fab fa-linux shrink-0"></i> Systèmes & Serveurs
+                    </h3>
+                    <ul class="space-y-4 text-sm sm:text-base text-slate-300">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-indigo-500 mt-1 shrink-0"></i>
+                            <span>Installation, configuration et maîtrise des OS majeurs (Debian, Windows Server, Kali Linux).</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-indigo-500 mt-1 shrink-0"></i>
+                            <span>Déploiement et sécurisation de services et applicatifs (CrowdSec, Ollama, Nginx,...).</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-indigo-500 mt-1 shrink-0"></i>
+                            <span>Gestion avancée d'environnements virtualisés (Proxmox VE, VirtualBox).</span>
+                        </li>
                     </ul>
                 </div>
 
-                <div class="bg-white p-8 rounded-[2.5rem] border-l-8 border-purple-500 card-shadow transition hover:scale-[1.02]">
-                    <span class="text-xs font-bold text-purple-500 uppercase tracking-widest">2ème Année - 2026</span>
-                    <h3 class="text-2xl font-bold mt-4 mb-4 text-slate-900">Eanna : Région Nouvelle-Aquitaine</h3>
-                    <ul class="space-y-2">
-                        <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i> Assistance continue aux lycées de Bordeaux Nord</li>
-                        <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i> Migration des postes informatiques vers le nouveau serveur Active Directory</li>
-                        <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i> Déploiement d'images système via FOG</li>
-                        <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i> Mise en place d'un pare-feu pfSense pour la gestion d'un portail captif</li>
-                        <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i> Déploiement et installation de logiciels</li>
-                        <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i> Maintenance matérielle : remplacement de disques par des SSD/NVMe</li>
-                        <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i> Installation de nouveaux parcs informatiques</li>
-                        <li class="flex items-start"><i class="fas fa-chevron-right text-[10px] mt-1.5 mr-2 text-purple-400"></i> Configuration et gestion d'un NAS QNAP</li>
+                <!-- Box Réseaux -->
+                <div class="bg-slate-800/50 p-6 md:p-8 rounded-3xl border border-slate-700 backdrop-blur-sm">
+                    <h3 class="text-xl font-bold mb-6 text-purple-400 flex items-center gap-3">
+                        <i class="fas fa-wifi shrink-0"></i> Réseaux & Sécurité
+                    </h3>
+                    <ul class="space-y-4 text-sm sm:text-base text-slate-300">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-purple-500 mt-1 shrink-0"></i>
+                            <span>Configuration de switchs managés et segmentation réseau (VLAN sur Aruba, NetGear).</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-purple-500 mt-1 shrink-0"></i>
+                            <span>Déploiement de bornes Wi-Fi et gestion centralisée via contrôleur.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-purple-500 mt-1 shrink-0"></i>
+                            <span>Administration sécurisée à distance et implémentation de règles de filtrage (Firewall).</span>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="realisations" class="py-24 px-6 bg-white">
-        <div class="max-w-5xl mx-auto">
-            <h2 class="text-3xl font-extrabold mb-12 text-center text-slate-900 italic">Réalisations professionnelles</h2>
-            <div class="grid md:grid-cols-2 gap-8">
+    <!-- Stages -->
+    <section id="stages" class="py-16 md:py-24 px-4 sm:px-6 bg-slate-50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Expériences en Entreprise</h2>
+                <div class="h-1 w-20 vibrant-gradient mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 md:gap-10">
                 
-                <div class="bg-slate-50 p-8 rounded-3xl card-shadow border-t-4 border-purple-500 flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">AP : Godzilla</h3>
-                        <p class="text-sm text-slate-600 mb-6">Mise en place un système permettant le déploiement d'images systèmes à distance ainsi que l’installation de logiciels.</p>
-                    </div>
-                    <div>
-                        <a href="https://drive.google.com/drive/folders/1f183xKe-m-2dlTQWhUDpn6kanaZq1gxf?usp=share_link" target="_blank" class="bg-white text-purple-600 px-6 py-2 rounded-xl font-bold border border-purple-100 hover:bg-purple-600 hover:text-white transition inline-block">Ouvrir le dossier</a>
-                    </div>
+                <div class="bg-white p-6 md:p-10 rounded-[2rem] border border-slate-100 card-hover relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-50 rounded-bl-full -z-10 transition-transform group-hover:scale-150"></div>
+                    <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 text-[10px] sm:text-xs font-bold rounded-md mb-6 uppercase tracking-wider">1ère Année • 2025</span>
+                    <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2">Région Nouvelle-Aquitaine</h3>
+                    <p class="text-slate-500 font-medium mb-6 sm:mb-8 flex items-center gap-2"><i class="fas fa-building shrink-0"></i> Eanna</p>
+                    
+                    <ul class="space-y-3 text-xs sm:text-sm text-slate-600">
+                        <li class="flex items-start gap-3"><i class="fas fa-angle-right text-indigo-400 mt-1 shrink-0"></i> Assistance de niveau 1 & 2 aux lycées de Bordeaux Nord.</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-angle-right text-indigo-400 mt-1 shrink-0"></i> Configuration d'équipements Aruba (Switchs, bornes, contrôleur).</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-angle-right text-indigo-400 mt-1 shrink-0"></i> Mise en production d'un hyperviseur Proxmox secondaire.</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-angle-right text-indigo-400 mt-1 shrink-0"></i> Déploiement de machines virtuelles et logiciels métiers.</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-angle-right text-indigo-400 mt-1 shrink-0"></i> Raccordement physique et logique de postes de travail.</li>
+                    </ul>
                 </div>
 
-                <div class="bg-slate-50 p-8 rounded-3xl card-shadow border-t-4 border-indigo-500 flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">AP : Flexoffice</h3>
-                        <p class="text-sm text-slate-600 mb-6">Mise en place d'une solution de portabilité du dossier personnel à travers différents scripts.</p>
-                    </div>
-                    <div>
-                        <a href="https://drive.google.com/drive/folders/1pYMQnSsJLt4ip_aRw2F8Jdw56QZnntBy?usp=share_link" target="_blank" class="bg-white text-indigo-600 px-6 py-2 rounded-xl font-bold border border-indigo-100 hover:bg-indigo-600 hover:text-white transition inline-block">Ouvrir le dossier</a>
-                    </div>
+                <div class="bg-white p-6 md:p-10 rounded-[2rem] border border-slate-100 card-hover relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-purple-50 rounded-bl-full -z-10 transition-transform group-hover:scale-150"></div>
+                    <span class="inline-block px-3 py-1 bg-purple-100 text-purple-700 text-[10px] sm:text-xs font-bold rounded-md mb-6 uppercase tracking-wider">2ème Année • 2026</span>
+                    <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2">Région Nouvelle-Aquitaine</h3>
+                    <p class="text-slate-500 font-medium mb-6 sm:mb-8 flex items-center gap-2"><i class="fas fa-building shrink-0"></i> Eanna</p>
+                    
+                    <ul class="space-y-3 text-xs sm:text-sm text-slate-600">
+                        <li class="flex items-start gap-3"><i class="fas fa-angle-right text-purple-400 mt-1 shrink-0"></i> Migration des postes vers un nouveau domaine Active Directory.</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-angle-right text-purple-400 mt-1 shrink-0"></i> Implémentation et déploiement d'images système via FOG Project.</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-angle-right text-purple-400 mt-1 shrink-0"></i> Configuration d'un portail captif via pare-feu pfSense.</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-angle-right text-purple-400 mt-1 shrink-0"></i> Installation matérielle (Upgrades SSD/NVMe) et logiciels.</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-angle-right text-purple-400 mt-1 shrink-0"></i> Administration du stockage réseau via NAS QNAP.</li>
+                    </ul>
                 </div>
 
-                <div class="bg-slate-50 p-8 rounded-3xl card-shadow border-t-4 border-indigo-500 flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">AP : Projet Assiz</h3>
-                        <p class="text-sm text-slate-600 mb-6">Mise en place de DHCP, d'une connexion sans fil utilisant un VLAN, accès internet à travers une passerelle.</p>
-                    </div>
-                    <div>
-                        <a href="https://drive.google.com/drive/folders/1CvtcMeoUrMZRZGU4-QpBlFxRwSCE55fW?usp=share_link" target="_blank" class="bg-white text-indigo-600 px-6 py-2 rounded-xl font-bold border border-indigo-100 hover:bg-indigo-600 hover:text-white transition inline-block">Ouvrir le dossier</a>
-                    </div>
-                </div>
-
-                <div class="bg-slate-50 p-8 rounded-3xl card-shadow border-t-4 border-indigo-500 flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">AP : Gpopu</h3>
-                        <p class="text-sm text-slate-600 mb-6">Mise en place d'une maquette afin de valider les outils de migration et le bon fonctionnement du nouveau système à travers un DHCP DNS (primaire et secondaire), GPO et UO, une connexion sans fil, un contrôleur de domaine et différents scripts.</p>
-                    </div>
-                    <div>
-                        <a href="https://drive.google.com/drive/folders/1ettafnCaBLyZOpchSUCSeZP2H0Pn7vxH?usp=share_link" target="_blank" class="bg-white text-indigo-600 px-6 py-2 rounded-xl font-bold border border-indigo-100 hover:bg-indigo-600 hover:text-white transition inline-block">Ouvrir le dossier</a>
-                    </div>
-                </div>
-                <div class="bg-slate-50 p-8 rounded-3xl card-shadow border-t-4 border-indigo-500 flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">AP : Portfolio</h3>
-                        <p class="text-sm text-slate-600 mb-6">Mise en place d'un portfolio qui a pour but de me présenter</p>
-                    </div>
-                    <div>
-                        <a href="https://drive.google.com/drive/folders/14hVQK3_areOez7djsSmdd1mL4yBgw3oN?usp=sharing" target="_blank" class="bg-white text-indigo-600 px-6 py-2 rounded-xl font-bold border border-indigo-100 hover:bg-indigo-600 hover:text-white transition inline-block">Ouvrir le dossier</a>
-                    </div>
-                </div>
-                <div class="bg-slate-50 p-8 rounded-3xl card-shadow border-t-4 border-indigo-500 flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">Stage : 1ère année</h3>
-                        <p class="text-sm text-slate-600 mb-6">Livrables et compétences aquérit durant ce stage chez Eanna, technicien de la région Nouvelle-Aquitaine.</p>
-                    </div>
-                    <div>
-                        <a href="https://drive.google.com/drive/folders/1HyFupavBFU1mzMZJEENWI9kv6M2NslC1?usp=share_link" target="_blank" class="bg-white text-indigo-600 px-6 py-2 rounded-xl font-bold border border-indigo-100 hover:bg-indigo-600 hover:text-white transition inline-block">Ouvrir le dossier</a>
-                    </div>
-                </div>
-
-                <div class="bg-slate-50 p-8 rounded-3xl card-shadow border-t-4 border-indigo-500 flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">Stage : 2ème année</h3>
-                        <p class="text-sm text-slate-600 mb-6">Livrables et compétences aquérit durant ce stage chez Eanna, technicien de la région Nouvelle-Aquitaine.</p>
-                    </div>
-                    <div>
-                        <a href="https://drive.google.com/drive/folders/1lWxIJJBfH3lGmzgg9o2a1phhOvm-GC-S?usp=share_link" target="_blank" class="bg-white text-indigo-600 px-6 py-2 rounded-xl font-bold border border-indigo-100 hover:bg-indigo-600 hover:text-white transition inline-block">Ouvrir le dossier</a>
-                    </div>
-                </div>
-                
             </div>
         </div>
     </section>
 
-    <section id="synthese" class="py-24 px-6 bg-slate-50 text-center">
-        <div class="max-w-4xl mx-auto p-12 rounded-[3rem] bg-slate-900 text-white shadow-2xl">
-            <h2 class="text-2xl font-bold mb-8 italic">Synthèse des Compétences</h2>
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-                <a href="/excel/SyntheseComp.xlsx" download class="inline-flex items-center bg-emerald-500 hover:bg-emerald-400 text-white px-10 py-4 rounded-2xl font-bold transition w-full sm:w-auto justify-center shadow-lg transform hover:-translate-y-1">
-                    <i class="fas fa-file-excel mr-3 text-xl"></i> TÉLÉCHARGER EXCEL
-                </a>
-                <a href="/excel/SyntheseCompPDF.pdf" target="_blank" class="inline-flex items-center bg-transparent border-2 border-white/30 hover:border-white text-white px-10 py-4 rounded-2xl font-bold transition w-full sm:w-auto justify-center shadow-lg transform hover:-translate-y-1">
-                    <i class="fas fa-file-pdf mr-3 text-xl"></i> VOIR EN PDF
-                </a>
+    <!-- Réalisations -->
+    <section id="realisations" class="py-16 md:py-24 px-4 sm:px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Réalisations Professionnelles</h2>
+                <div class="h-1 w-20 vibrant-gradient mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Carte Réalisation -->
+                <div class="bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-100 flex flex-col h-full card-hover">
+                    <div class="flex-grow">
+                        <div class="w-10 h-10 md:w-12 md:h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center text-lg md:text-xl mb-4 md:mb-6 shrink-0">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-extrabold text-slate-900 mb-2 md:mb-3">AP : Godzilla</h3>
+                        <p class="text-xs md:text-sm text-slate-600 mb-6 leading-relaxed">Système centralisé permettant le déploiement d'images systèmes à distance via réseau (PXE) ainsi que l’installation automatisée de logiciels.</p>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1f183xKe-m-2dlTQWhUDpn6kanaZq1gxf?usp=share_link" target="_blank" class="block w-full text-center bg-white border border-slate-200 text-slate-700 px-4 py-3 rounded-xl text-sm font-bold hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-colors">
+                        <i class="fas fa-folder-open mr-2"></i> Dossier Projet
+                    </a>
+                </div>
+
+                <div class="bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-100 flex flex-col h-full card-hover">
+                    <div class="flex-grow">
+                        <div class="w-10 h-10 md:w-12 md:h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-lg md:text-xl mb-4 md:mb-6 shrink-0">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-extrabold text-slate-900 mb-2 md:mb-3">AP : Flexoffice</h3>
+                        <p class="text-xs md:text-sm text-slate-600 mb-6 leading-relaxed">Solution de portabilité pour environnements professionnels : gestion des profils itinérants et redirection du dossier personnel via scripts.</p>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1pYMQnSsJLt4ip_aRw2F8Jdw56QZnntBy?usp=share_link" target="_blank" class="block w-full text-center bg-white border border-slate-200 text-slate-700 px-4 py-3 rounded-xl text-sm font-bold hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-colors">
+                        <i class="fas fa-folder-open mr-2"></i> Dossier Projet
+                    </a>
+                </div>
+
+                <div class="bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-100 flex flex-col h-full card-hover">
+                    <div class="flex-grow">
+                        <div class="w-10 h-10 md:w-12 md:h-12 bg-pink-100 text-pink-600 rounded-xl flex items-center justify-center text-lg md:text-xl mb-4 md:mb-6 shrink-0">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-extrabold text-slate-900 mb-2 md:mb-3">AP : Projet Assiz</h3>
+                        <p class="text-xs md:text-sm text-slate-600 mb-6 leading-relaxed">Infrastructure complète : serveur DHCP, déploiement d'un réseau sans fil sécurisé encapsulé dans un VLAN, et routage internet via passerelle.</p>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1CvtcMeoUrMZRZGU4-QpBlFxRwSCE55fW?usp=share_link" target="_blank" class="block w-full text-center bg-white border border-slate-200 text-slate-700 px-4 py-3 rounded-xl text-sm font-bold hover:bg-pink-600 hover:text-white hover:border-pink-600 transition-colors">
+                        <i class="fas fa-folder-open mr-2"></i> Dossier Projet
+                    </a>
+                </div>
+
+                <div class="bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-100 flex flex-col h-full card-hover">
+                    <div class="flex-grow">
+                        <div class="w-10 h-10 md:w-12 md:h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center text-lg md:text-xl mb-4 md:mb-6 shrink-0">
+                            <i class="fas fa-sitemap"></i>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-extrabold text-slate-900 mb-2 md:mb-3">AP : Gpopu</h3>
+                        <p class="text-xs md:text-sm text-slate-600 mb-6 leading-relaxed">Maquette de validation Active Directory : DNS, DHCP, structure UO, déploiement GPO, et scripts d'administration pour préparer une migration.</p>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1ettafnCaBLyZOpchSUCSeZP2H0Pn7vxH?usp=share_link" target="_blank" class="block w-full text-center bg-white border border-slate-200 text-slate-700 px-4 py-3 rounded-xl text-sm font-bold hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-colors">
+                        <i class="fas fa-folder-open mr-2"></i> Dossier Projet
+                    </a>
+                </div>
+
+                <div class="bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-100 flex flex-col h-full card-hover sm:col-span-2 lg:col-span-1">
+                    <div class="flex-grow">
+                        <div class="w-10 h-10 md:w-12 h-12 bg-slate-200 text-slate-600 rounded-xl flex items-center justify-center text-lg md:text-xl mb-4 md:mb-6 shrink-0">
+                            <i class="fas fa-box-archive"></i>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-extrabold text-slate-900 mb-2 md:mb-3">Rapports de Stage</h3>
+                        <p class="text-xs md:text-sm text-slate-600 mb-6 leading-relaxed">Compilation des livrables, rapports techniques et fiches de compétences acquis lors de mes deux années de stage à la région Nouvelle-Aquitaine.</p>
+                    </div>
+                    <div class="flex gap-2 mt-auto">
+                        <a href="https://drive.google.com/drive/folders/1HyFupavBFU1mzMZJEENWI9kv6M2NslC1?usp=share_link" target="_blank" class="flex-1 text-center bg-white border border-slate-200 text-slate-700 px-2 py-3 md:py-2 rounded-xl md:rounded-lg text-[10px] md:text-xs font-bold hover:bg-slate-800 hover:text-white transition-colors">
+                            1ère Année
+                        </a>
+                        <a href="https://drive.google.com/drive/folders/1lWxIJJBfH3lGmzgg9o2a1phhOvm-GC-S?usp=share_link" target="_blank" class="flex-1 text-center bg-white border border-slate-200 text-slate-700 px-2 py-3 md:py-2 rounded-xl md:rounded-lg text-[10px] md:text-xs font-bold hover:bg-slate-800 hover:text-white transition-colors">
+                            2ème Année
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
-    <footer id="contact" class="py-24 vibrant-gradient text-white px-6">
-        <div class="max-w-5xl mx-auto text-center">
-            <h2 class="text-4xl font-extrabold mb-12 uppercase tracking-widest text-white">Me Contacter</h2>
-            <div class="grid md:grid-cols-3 gap-8 mb-16">
-                <a href="https://fr.linkedin.com/in/enzo-paolini-bouill%C3%A9-468b37279" target="_blank" class="bg-white/10 hover:bg-white/20 p-8 rounded-3xl transition border border-white/20">
-                    <i class="fab fa-linkedin text-4xl mb-4"></i><p class="font-bold uppercase">LinkedIn</p>
+
+    <!-- Footer / Contact compacté -->
+    <footer id="contact" class="py-16 md:py-12 bg-slate-900 relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-4xl opacity-20 pointer-events-none">
+            <div class="absolute top-[-20%] left-[-10%] w-[300px] h-[300px] rounded-full bg-indigo-600 blur-[80px]"></div>
+            <div class="absolute bottom-[-20%] right-[-10%] w-[250px] h-[250px] rounded-full bg-purple-600 blur-[80px]"></div>
+        </div>
+        
+        <div class="max-w-5xl mx-auto text-center relative z-10 px-4 sm:px-6">
+            <h2 class="text-3xl font-extrabold mb-8 text-white tracking-tight">Me Contacter</h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
+                <!-- LinkedIn -->
+                <a href="https://fr.linkedin.com/in/enzo-paolini-bouill%C3%A9-468b37279" target="_blank" class="bg-white/5 hover:bg-indigo-600 p-6 rounded-3xl transition-all duration-300 border border-white/10 group flex flex-col justify-center items-center">
+                    <i class="fab fa-linkedin text-3xl mb-3 text-indigo-400 group-hover:text-white transition-colors shrink-0"></i>
+                    <p class="font-bold uppercase tracking-wider text-xs sm:text-sm text-white">LinkedIn</p>
                 </a>
-                <a href="mailto:enzopao.pro@gmail.com" class="bg-white/10 hover:bg-white/20 p-8 rounded-3xl transition border border-white/20">
-                    <i class="fas fa-envelope text-4xl mb-4"></i><p class="font-bold uppercase">Mail</p>
+                
+                <!-- Email -->
+                <a href="mailto:enzopao.pro@gmail.com" class="bg-white/5 hover:bg-purple-600 p-6 rounded-3xl transition-all duration-300 border border-white/10 group flex flex-col justify-center items-center">
+                    <i class="fas fa-envelope text-3xl mb-3 text-purple-400 group-hover:text-white transition-colors shrink-0"></i>
+                    <p class="font-bold uppercase tracking-wider text-xs sm:text-sm text-white">Email</p>
                 </a>
-                <div class="bg-white/10 p-8 rounded-3xl border border-white/20">
-                    <i class="fas fa-phone text-4xl mb-4"></i><p class="font-bold italic text-lg">06 72 77 66 13</p>
+                
+                <!-- Téléphone -->
+                <div class="bg-white/5 p-6 rounded-3xl border border-white/10 flex flex-col justify-center items-center">
+                    <i class="fas fa-phone text-3xl mb-3 text-pink-400 shrink-0"></i>
+                    <p class="font-bold text-base sm:text-lg text-white font-mono">06 72 77 66 13</p>
                 </div>
             </div>
-            <p class="opacity-40 text-[10px] font-bold uppercase tracking-[0.4em]">&copy; 2026 Enzo Paolini Bouillé</p>
+            
+            <p class="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em]">&copy; 2026 Enzo Paolini Bouillé - Tous droits réservés.</p>
         </div>
     </footer>
 
+    <!-- Script pour le menu mobile -->
+    <script>
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const icon = btn.querySelector('i');
+        const links = menu.querySelectorAll('a');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            if (menu.classList.contains('hidden')) {
+                icon.classList.replace('fa-times', 'fa-bars');
+            } else {
+                icon.classList.replace('fa-bars', 'fa-times');
+            }
+        });
+
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+                icon.classList.replace('fa-times', 'fa-bars');
+            });
+        });
+    </script>
 </body>
 </html>
